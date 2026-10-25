@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For My Dearest Baccha 💙 | A Sincere Apology</title>
+  <!-- Google Fonts: Elegant Display, Script, and Modern Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti & Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-midnight: #060913;
+      --navy-card: rgba(13, 22, 45, 0.82);
+      --accent-cyan: #38bdf8;
+      --royal-blue: #2563eb;
+      --electric-blue: #3b82f6;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top center, #0e1c42 0%, #070c1a 55%, #03060f 100%);
+      color: #f1f5f9;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .font-handwritten {
+      font-family: 'Alex Brush', cursive;
+    }
+
+    /* Floating Petals Canvas */
+    #petals-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--navy-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      box-shadow: 0 14px 35px -5px rgba(2, 8, 26, 0.85), 0 0 25px rgba(56, 189, 248, 0.08);
+    }
+
+    .glass-card-glow {
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.35), 0 16px 45px -8px rgba(0, 0, 0, 0.95);
+      border: 1px solid rgba(125, 211, 252, 0.55);
+    }
+
+    /* Glowing animations */
+    @keyframes romanticGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.35), 0 0 45px rgba(37, 99, 235, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(56, 189, 248, 0.7), 0 0 70px rgba(59, 130, 246, 0.45);
+      }
+    }
+
+    .romantic-pulse {
+      animation: romanticGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes subtleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(0.8deg); }
+    }
+
+    .float-anim {
+      animation: subtleFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.15); }
+    }
+    .twinkle {
+      animation: twinkle 2.5s infinite ease-in-out;
+    }
+
+    /* Screen transitions */
+    .screen-fade {
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Rose buttons */
+    .rose-card-btn {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .rose-card-btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(56, 189, 248, 0.8);
+      box-shadow: 0 10px 22px -5px rgba(56, 189, 248, 0.35);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060913;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e3a8a;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38bdf8;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative selection:bg-cyan-500 selection:text-white">
+
+  <!-- Floating Falling Blue Rose Petals Canvas -->
+  <canvas id="petals-canvas"></canvas>
+
+  <!-- Ambient Sound Controller -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+    <button id="sound-btn" onclick="toggleMute()" class="glass-card px-4 py-2 rounded-full text-xs md:text-sm font-medium text-sky-200 hover:text-white hover:border-sky-400 transition-all flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 cursor-pointer">
+      <i data-lucide="volume-2" id="sound-icon" class="w-4 h-4 text-sky-400"></i>
+      <span id="sound-label">Melody On</span>
+    </button>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 1: INTRO / "I MADE SOMETHING" CARD  -->
+  <!-- ========================================== -->
+  <main id="screen-intro" class="screen-fade min-h-screen flex items-center justify-center p-4 relative z-30">
+    <div class="max-w-md w-full glass-card p-8 md:p-10 rounded-3xl text-center relative border border-cyan-500/30 romantic-pulse float-anim">
+      <!-- Starlight Accents -->
+      <div class="absolute -top-3 -right-3 text-cyan-300 twinkle text-2xl">✨</div>
+      <div class="absolute -bottom-3 -left-3 text-cyan-300 twinkle text-2xl" style="animation-delay: 1.2s;">✨</div>
+
+      <!-- Glowing Heart-Envelope Badge -->
+      <div class="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-tr from-blue-700 via-sky-500 to-indigo-600 p-0.5 flex items-center justify-center shadow-lg shadow-sky-500/30">
+        <div class="w-full h-full bg-slate-950/80 rounded-[22px] flex items-center justify-center relative overflow-hidden group">
+          <div class="absolute inset-0 bg-blue-500/20 rounded-full blur-md animate-pulse"></div>
+          <i data-lucide="mail-heart" class="w-10 h-10 text-cyan-300 relative z-10 transition-transform duration-300 group-hover:scale-110"></i>
+        </div>
+      </div>
+
+      <span class="inline-block px-3 py-1 mb-3 text-xs tracking-widest text-sky-300 uppercase font-semibold bg-sky-950/60 rounded-full border border-sky-500/30">
+        From my heart to yours
+      </span>
+
+      <h1 class="font-serif-title text-3xl md:text-4xl font-bold text-white mb-4">
+        Hey baccha... <span class="inline-block animate-bounce">🥺</span>
+      </h1>
+
+      <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6 font-light">
+        I made something for you, baccha... I know it's not much, and I know my silly words hurt you earlier. I never meant to make you feel bad about that picture. My heart just wanted to make it up to you... Please forgive me? I love you so much.
+      </p>
+
+      <!-- Entrance Action Button -->
+      <button id="btn-enter" onclick="openMainScreen()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:via-blue-500 hover:to-indigo-500 text-white font-medium shadow-lg shadow-sky-500/40 hover:shadow-cyan-400/60 transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2 group cursor-pointer text-base">
+        <span>See what I've made for you</span>
+        <span class="text-cyan-200 group-hover:translate-x-1 transition-transform">💙 ✨</span>
+      </button>
+
+      <p class="text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-400"></i>
+        Tap gently with an open heart
+      </p>
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- SCREEN 2: MAIN APOLOGY & INTERACTIVE SITE  -->
+  <!-- ========================================== -->
+  <main id="screen-main" class="screen-fade hidden opacity-0 translate-y-8 relative z-20 min-h-screen pb-24">
+    <!-- Header Ambient Bar -->
+    <header class="w-full max-w-4xl mx-auto px-4 pt-8 pb-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-cyan-300">
+          <i data-lucide="heart" class="w-4 h-4 fill-sky-400 text-transparent"></i>
+        </div>
+        <span class="text-sm font-medium tracking-wide text-cyan-300">For My Dearest Baccha</span>
+      </div>
+      <div class="text-xs px-3 py-1 rounded-full bg-slate-900/60 border border-slate-700 text-slate-300 flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>Made with love</span>
+      </div>
+    </header>
+
+    <div class="max-w-3xl mx-auto px-4 mt-4 space-y-10">
+
+      <!-- Hero Header Section -->
+      <section class="text-center space-y-3 pt-2">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-400/30 bg-sky-950/40 text-sky-300 text-xs md:text-sm font-medium tracking-wide mb-1">
+          <span>✨</span> For the most elegant and breathtaking girl <span>✨</span>
+        </div>
+        <h2 class="font-serif-title text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          I Am Truly, Deeply Sorry, Baccha
+        </h2>
+        <p class="font-handwritten text-3xl md:text-4xl text-cyan-300 tracking-wide">
+          "Every single detail in that picture was pure perfection..."
+        </p>
+        <div class="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto rounded-full mt-2"></div>
+      </section>
+
+      <!-- Apology Letter Card -->
+      <section class="glass-card rounded-3xl p-6 md:p-8 relative overflow-hidden border border-cyan-500/25">
+        <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="flex items-start gap-4">
+          <div class="hidden sm:flex w-12 h-12 rounded-2xl bg-sky-950/80 border border-sky-500/30 items-center justify-center shrink-0 text-cyan-300">
+            <i data-lucide="feather" class="w-6 h-6"></i>
+          </div>
+          <div class="space-y-4 text-slate-200 text-sm md:text-base leading-relaxed">
+            <p>
+              I tried to playfully tease you, but I phrased it so horribly. I pointed out the corner of your lipstick when all I should have done was admire how completely mesmerizing you looked.
+            </p>
+            <p>
+              When you said <span class="italic text-cyan-200">"you just look at the flaws, but there is more to look,"</span> it broke my heart, because you were completely right. I never look for flaws in you, <span class="text-cyan-300 font-semibold">baccha</span>. You are pure beauty, and you deserve nothing but adoration. You weren't flawed in any way—my words were.
+            </p>
+            <div class="p-4 rounded-2xl bg-sky-950/60 border border-sky-400/30 text-sky-200 text-sm md:text-base italic leading-relaxed shadow-inner">
+              "The truth is: that lipstick shade was gorgeous on your lips, your smile carried so much sweetness, your earrings caught every trace of light, your bangles added pure charm, and the dress looked stunning on you."
+            </div>
+            <p class="font-handwritten text-2xl md:text-3xl text-cyan-200 pt-2 text-right">
+              — Always yours with all my love 💙
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: What Truly Caught My Breath (4 Spotlight Cards) -->
+      <section class="space-y-4">
+        <div class="text-center md:text-left">
+          <h3 class="font-serif-title text-2xl font-bold text-white flex items-center justify-center md:justify-start gap-2">
+            <span>What I Actually Saw In That Picture</span>
+            <span class="text-cyan-400">✨</span>
+          </h3>
+          <p class="text-xs md:text-sm text-slate-400">Tap each element to uncover how mesmerizing it actually was:</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Card 1: Lips & Smile -->
+          <div onclick="revealGlow(this, 'That lipstick shade looked gorgeous on your lips! Your smile carries so much warmth and sweetness, I was completely captivated.')" class="cursor-pointer glass-card p-5 rounded-2xl hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-2.5">
+              <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-400/30 flex items-center justify-center text-pink-300 text-xl">
+                💄
+              </div>
+              <div>
+                <h4 class="font-semibold text-white text-base">Your Lips & Smile</h4>
+                <span class="text-xs text-pink-300/80">The Lipstick Shade</span>
+              </div>
+            </div>
+            <p class="text-xs md:text-sm text-slate-300 leading-normal">
+              That lipstick shade looked stunning on your lips. Your sweet smile has always been my favorite sight in the world.
+            </p>
+          </div>
+
+          <!-- Card 2: Earrings -->
+          <div onclick="revealGlow(this, 'Those delicate earrings framing your neckline caught the light so gracefully. Such understated elegance!')" class="cursor-pointer glass-card p-5 rounded-2xl hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-2.5">
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-300 text-xl">
+                ✨
+              </div>
+              <div>
+                <h4 class="font-semibold text-white text-base">Your Sparkling Earrings</h4>
+                <span class="text-xs text-cyan-300/80">Delicate Elegance</span>
+              </div>
+            </div>
+            <p class="text-xs md:text-sm text-slate-300 leading-normal">
+              Catching every trace of light so delicately, framing your neckline with pure grace.
+            </p>
+          </div>
+
+          <!-- Card 3: Bangles -->
+          <div onclick="revealGlow(this, 'Your bangles brought so much grace and charm to your wrist. Pure traditional charm.')" class="cursor-pointer glass-card p-5 rounded-2xl hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-2.5">
+              <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-400/30 flex items-center justify-center text-indigo-300 text-xl">
+                💫
+              </div>
+              <div>
+                <h4 class="font-semibold text-white text-base">Your Graceful Bangles</h4>
+                <span class="text-xs text-indigo-300/80">Sweet Charm</span>
+              </div>
+            </div>
+            <p class="text-xs md:text-sm text-slate-300 leading-normal">
+              The gentle, delicate shine around your wrists added so much charm and magic to the whole picture.
+            </p>
+          </div>
+
+          <!-- Card 4: Dress & Most Gorgeous Person -->
+          <div onclick="revealGlow(this, 'The dress looked so much more beautiful simply because it was worn by the most gorgeous person.')" class="cursor-pointer glass-card p-5 rounded-2xl hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-2.5">
+              <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-400/30 flex items-center justify-center text-cyan-300 text-xl">
+                👗
+              </div>
+              <div>
+                <h4 class="font-semibold text-white text-base">The Gorgeous Dress</h4>
+                <span class="text-xs text-sky-300/80">The Most Gorgeous Person</span>
+              </div>
+            </div>
+            <p class="text-xs md:text-sm text-slate-300 leading-normal">
+              The dress looked so much more beautiful simply because it was worn by the most gorgeous person.
+            </p>
+          </div>
+        </div>
+
+        <!-- Live Insight Output Box -->
+        <div id="insight-box" class="p-4 rounded-2xl bg-sky-950/50 border border-dashed border-sky-500/40 text-center text-sky-200 text-sm italic transition-all duration-300">
+          "Tap any detail above to see what was truly on my mind..."
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- SECTION: Virtual Blue Rose Garden & In-Place Bouquet Morph -->
+      <!-- ========================================================= -->
+      <section id="rose-section" class="glass-card rounded-3xl p-6 md:p-8 relative border border-cyan-500/30 shadow-xl transition-all duration-700">
+        
+        <!-- STATE A: ROSE PICKING CONTAINER -->
+        <div id="rose-picking-container" class="transition-opacity duration-500">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div>
+              <span class="text-xs uppercase tracking-widest text-sky-400 font-semibold block">A Special Gift For You</span>
+              <h3 class="font-serif-title text-2xl font-bold text-white flex items-center gap-2">
+                <span>Collect 6 Blue Roses For Baccha</span>
+                <span class="text-blue-400">🌹</span>
+              </h3>
+            </div>
+            <!-- Counter Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-950/80 border border-sky-400/40 self-start sm:self-auto shadow-sm">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span id="rose-counter" class="text-xs md:text-sm font-semibold text-cyan-200">0 of 6 Roses Gathered</span>
+            </div>
+          </div>
+
+          <p class="text-slate-300 text-xs md:text-sm mb-6 leading-relaxed">
+            Blue roses stand for miracles, rare beauty, and eternal love. Tap each rose below to gather your bouquet, baccha:
+          </p>
+
+          <!-- 6 Blue Rose Buttons Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4">
+            <!-- Rose 1 -->
+            <button onclick="pickRose(1, 'The Lipstick: That shade looked so irresistibly lovely on your lips. I was so silly to tease instead of swooning.', this)" class="rose-card-btn p-4 rounded-2xl bg-slate-900/70 border border-sky-500/30 flex flex-col items-center gap-2 text-center group cursor-pointer active:scale-95">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-sky-100">Rose #1</span>
+              <span class="text-[11px] text-slate-400 group-hover:text-cyan-300 transition-colors">Your Lips</span>
+            </button>
+
+            <!-- Rose 2 -->
+            <button onclick="pickRose(2, 'The Earrings: The delicate dangle framing your neck looked like absolute art. Pure elegance.', this)" class="rose-card-btn p-4 rounded-2xl bg-slate-900/70 border border-sky-500/30 flex flex-col items-center gap-2 text-center group cursor-pointer active:scale-95">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-sky-100">Rose #2</span>
+              <span class="text-[11px] text-slate-400 group-hover:text-cyan-300 transition-colors">Your Earrings</span>
+            </button>
+
+            <!-- Rose 3 -->
+            <button onclick="pickRose(3, 'The Bangles: The charm and grace of your bangles gave the picture such a sweet, magical aura.', this)" class="rose-card-btn p-4 rounded-2xl bg-slate-900/70 border border-sky-500/30 flex flex-col items-center gap-2 text-center group cursor-pointer active:scale-95">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-sky-100">Rose #3</span>
+              <span class="text-[11px] text-slate-400 group-hover:text-cyan-300 transition-colors">Your Bangles</span>
+            </button>
+
+            <!-- Rose 4 -->
+            <button onclick="pickRose(4, 'The Dress: The dress looked so much more beautiful simply because it was worn by the most gorgeous person in this world.', this)" class="rose-card-btn p-4 rounded-2xl bg-slate-900/70 border border-sky-500/30 flex flex-col items-center gap-2 text-center group cursor-pointer active:scale-95">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-sky-100">Rose #4</span>
+              <span class="text-[11px] text-slate-400 group-hover:text-cyan-300 transition-colors">The Dress</span>
+            </button>
+
+            <!-- Rose 5 -->
+            <button onclick="pickRose(5, 'My Silly Mistake: I was trying so hard to tease you that my brain glitched and missed praising how breathtaking you looked.', this)" class="rose-card-btn p-4 rounded-2xl bg-slate-900/70 border border-sky-500/30 flex flex-col items-center gap-2 text-center group cursor-pointer active:scale-95">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-sky-100">Rose #5</span>
+              <span class="text-[11px] text-slate-400 group-hover:text-cyan-300 transition-colors">My Apology</span>
+            </button>
+
+            <!-- Rose 6 -->
+            <button onclick="pickRose(6, 'The Whole Picture: Every element together—the lips, earrings, bangles, and dress—was a 100/10 masterpiece.', this)" class="rose-card-btn p-4 rounded-2xl bg-slate-900/70 border border-sky-500/30 flex flex-col items-center gap-2 text-center group cursor-pointer active:scale-95">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform filter drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]">
+                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-sky-100">Rose #6</span>
+              <span class="text-[11px] text-slate-400 group-hover:text-cyan-300 transition-colors">My Whole World</span>
+            </button>
+          </div>
+
+          <!-- Rose Note Box -->
+          <div id="rose-note-box" class="mt-6 p-4 rounded-2xl bg-slate-900/80 border border-sky-400/40 text-center text-sky-200 font-medium text-xs md:text-sm min-h-[58px] flex items-center justify-center">
+            <span class="text-slate-400 italic">Click on each blue rose to collect your bouquet and read the secrets 🌹💙</span>
+          </div>
+        </div>
+
+        <!-- STATE B: TRANSFORMED BOUQUET CONTAINER (Revealed after all 6 collected) -->
+        <div id="bouquet-transformed-container" class="hidden opacity-0 py-6 text-center space-y-6 transition-all duration-700">
+          <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+            <div class="absolute inset-0 bg-sky-500/25 rounded-full blur-2xl animate-pulse"></div>
+            <!-- Handpicked Blue Rose Bouquet Illustration -->
+            <div class="relative z-10 w-28 h-28 rounded-full bg-gradient-to-tr from-blue-700 via-sky-500 to-cyan-300 p-1 shadow-2xl flex items-center justify-center">
+              <div class="w-full h-full bg-slate-950/90 rounded-full flex items-center justify-center">
+                <svg class="w-16 h-16 text-cyan-300 filter drop-shadow-[0_0_12px_rgba(56,189,248,0.8)]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.3.8-.5 1.7-.5 2.7 0 2.8 2.2 5 5 5s5-2.2 5-5c0-1-.2-1.9-.5-2.7.8-.8 1.3-1.9 1.3-3.1C19.1 4 17.1 2 14.6 2c-.9 0-1.7.3-2.4.8C11.5 2.3 10.7 2 9.8 2H12z"/>
+                  <path d="M12 17.3v4.7M9.5 19.5c1.5.5 3.5.5 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="absolute -top-2 -right-2 text-2xl animate-bounce">💐</div>
+            <div class="absolute -bottom-2 -left-2 text-2xl animate-pulse">✨</div>
+          </div>
+
+          <div class="space-y-2">
+            <span class="inline-block px-4 py-1 text-xs tracking-widest text-cyan-300 uppercase font-semibold bg-sky-950/80 rounded-full border border-sky-400/40">
+              Bouquet Complete 💙
+            </span>
+            <h3 class="font-serif-title text-2xl md:text-3xl font-bold text-white">
+              For My Beautiful Baccha
+            </h3>
+            <p class="font-handwritten text-3xl md:text-4xl text-cyan-200">
+              "A bouquet of eternal blue roses, handpicked just for you, baccha. You mean the world to me."
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-sky-950/60 border border-sky-400/40 max-w-lg mx-auto text-xs md:text-sm text-slate-300 leading-relaxed shadow-lg">
+            Every single rose represents my admiration for you—from your lovely lips, earrings, and bangles, to the way that dress made you look like the most gorgeous person alive.
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- SECTION: Single Climax Decision Zone                     -->
+      <!-- ========================================================= -->
+      <section id="forgiveness-zone" class="glass-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden space-y-8 border border-cyan-500/30">
+        <div class="space-y-3">
+          <div class="inline-block p-3 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 mb-1">
+            <i data-lucide="sparkles" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-3xl md:text-5xl font-serif-title font-bold text-white tracking-tight">
+            Will you forgive me, baccha? 🥺
+          </h2>
+          <p class="text-slate-300 text-sm md:text-base max-w-md mx-auto leading-relaxed">
+            I promise to never tease you like that again, baccha, and to only appreciate how truly stunning you look. Can we talk and smile again?
+          </p>
+        </div>
+
+        <!-- Decision Buttons -->
+        <div class="relative min-h-[140px] flex flex-col sm:flex-row items-center justify-center gap-6 pt-2">
+          <!-- Yes Button -->
+          <button id="yes-btn" onclick="celebrateForgiveness()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400 text-white font-bold text-lg md:text-xl shadow-[0_0_25px_rgba(56,189,248,0.5)] hover:scale-110 active:scale-95 transition-all flex items-center gap-3 z-30 cursor-pointer">
+            <span>I Forgive You 💙</span>
+          </button>
+
+          <!-- Playful Runaway Button -->
+          <button id="no-btn" onmouseover="dodgeButton()" onclick="dodgeButton()" class="px-6 py-3.5 rounded-2xl bg-slate-800/90 hover:bg-slate-800 text-slate-300 font-medium text-base border border-slate-700/60 shadow-lg transition-all duration-200 z-30 cursor-pointer select-none">
+            Still mad at you 😤
+          </button>
+        </div>
+
+        <!-- Dynamic Pleading Text -->
+        <p id="plea-text" class="text-xs md:text-sm text-sky-300 italic min-h-[24px]">
+          (Tip: The "Still mad at you" button is getting scared... just like I was foolish!)
+        </p>
+      </section>
+
+      <!-- Sweet Footer -->
+      <footer class="text-center text-xs md:text-sm text-slate-500 space-y-2 pb-8">
+        <p>Crafted exclusively for you with 💙, blue roses, and endless apologies, baccha.</p>
+        <p class="text-sky-400/80">"You are completely flawless to me."</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- CELEBRATION MODAL                          -->
+  <!-- ========================================== -->
+  <div id="celebration-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-500">
+    <div id="modal-card" class="glass-card max-w-lg w-full rounded-3xl p-8 md:p-10 text-center space-y-6 border border-sky-400 glass-card-glow transform scale-95 transition-transform duration-300 relative overflow-hidden">
+      
+      <div class="absolute -top-10 -right-10 w-36 h-36 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-sky-400 to-blue-600 flex items-center justify-center text-3xl shadow-lg animate-bounce">
+        💙
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="text-3xl font-serif-title font-bold text-white">Thank You, Baccha!</h3>
+        <p class="font-handwritten text-3xl text-cyan-300">You truly are my whole world.</p>
+      </div>
+
+      <!-- Sincere Love Confession -->
+      <div class="p-5 rounded-2xl bg-sky-950/70 border border-sky-400/30 text-sky-100 text-sm md:text-base leading-relaxed space-y-3 text-left">
+        <p class="font-medium text-center text-cyan-200">
+          "I love you a lot. I love you, I love you more than anything in this entire world, baccha. You mean the whole world to me, and you know, you are everything to me."
+        </p>
+        <p class="text-xs md:text-sm text-slate-300 text-center">
+          That picture was an absolute 100/10—your lipstick, earrings, bangles, and that dress were breathtaking. I'm texting you right now! 🥰
+        </p>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="closeModal()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 font-semibold text-white shadow-md hover:opacity-95 transition-all cursor-pointer">
+          Yay! Let's talk now 🥰
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // ==========================================
+    // 1. Web Audio Engine
+    // ==========================================
+    let audioCtx = null;
+    let isMuted = false;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.3, gainVal = 0.1) {
+      if (isMuted) return;
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {
+        console.warn("Audio blocked or not supported:", e);
+      }
+    }
+
+    function playChime() {
+      playTone(1318.5, 'triangle', 0.5, 0.08);
+      setTimeout(() => playTone(1661.2, 'sine', 0.5, 0.08), 80);
+      setTimeout(() => playTone(1975.5, 'sine', 0.7, 0.08), 160);
+    }
+
+    function playCelebrationChord() {
+      const chords = [523.25, 659.25, 783.99, 1046.50, 1318.5];
+      chords.forEach((note, index) => {
+        setTimeout(() => playTone(note, 'triangle', 0.8, 0.1), index * 100);
+      });
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      const label = document.getElementById('sound-label');
+      const icon = document.getElementById('sound-icon');
+      if (isMuted) {
+        label.innerText = 'Sound Muted';
+        icon.setAttribute('data-lucide', 'volume-x');
+      } else {
+        label.innerText = 'Melody On';
+        icon.setAttribute('data-lucide', 'volume-2');
+        playChime();
+      }
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 2. Screen 1 -> Screen 2 Transition
+    // ==========================================
+    function openMainScreen() {
+      playChime();
+      const screenIntro = document.getElementById('screen-intro');
+      const screenMain = document.getElementById('screen-main');
+
+      screenIntro.classList.add('opacity-0', 'scale-95');
+
+      setTimeout(() => {
+        screenIntro.classList.add('hidden');
+        screenMain.classList.remove('hidden');
+        
+        requestAnimationFrame(() => {
+          screenMain.classList.remove('opacity-0', 'translate-y-8');
+          screenMain.classList.add('opacity-100', 'translate-y-0');
+        });
+
+        // Trigger welcoming gentle confetti
+        confetti({
+          particleCount: 40,
+          spread: 70,
+          origin: { y: 0.3 },
+          colors: ['#38bdf8', '#60a5fa', '#93c5fd']
+        });
+      }, 500);
+    }
+
+    // ==========================================
+    // 3. Falling Blue Rose Petals Canvas
+    // ==========================================
+    const canvas = document.getElementById('petals-canvas');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * -canvas.height;
+        this.size = Math.random() * 12 + 10;
+        this.speedY = Math.random() * 1.5 + 0.8;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.rotation = Math.random() * 360;
+        this.rotSpeed = (Math.random() - 0.5) * 1.5;
+        this.opacity = Math.random() * 0.5 + 0.4;
+        const colors = [
+          'rgba(56, 189, 248,',
+          'rgba(96, 165, 250,',
+          'rgba(37, 99, 235,',
+          'rgba(186, 230, 253,'
+        ];
+        this.baseColor = colors[Math.floor(Math.random() * colors.length)];
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += Math.sin(this.y * 0.01) * 0.8 + this.speedX;
+        this.rotation += this.rotSpeed;
+
+        if (this.y > canvas.height + 20) {
+          this.reset();
+          this.y = -20;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.fillStyle = `${this.baseColor} ${this.opacity})`;
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size, 0, this.size / 2, this.size);
+        ctx.bezierCurveTo(0, this.size * 0.7, -this.size / 2, this.size * 0.3, 0, 0);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 35; i++) {
+      const p = new Petal();
+      p.y = Math.random() * canvas.height;
+      petals.push(p);
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animatePetals);
+    }
+    animatePetals();
+
+    // ==========================================
+    // 4. Feature Insight Glow
+    // ==========================================
+    function revealGlow(elem, message) {
+      playTone(880, 'sine', 0.2, 0.05);
+      const box = document.getElementById('insight-box');
+      box.innerText = `"${message}"`;
+      box.classList.add('glass-card-glow');
+      setTimeout(() => box.classList.remove('glass-card-glow'), 800);
+    }
+
+    // ==========================================
+    // 5. Virtual Blue Rose Garden & In-Place Morph
+    // ==========================================
+    const pickedRoses = new Set();
+    const totalRoses = 6;
+
+    function pickRose(index, note, btnElem) {
+      if (pickedRoses.has(index)) return;
+      playChime();
+      pickedRoses.add(index);
+
+      // Highlight picked rose
+      btnElem.classList.add('bg-blue-600/40', 'border-sky-400', 'shadow-[0_0_15px_rgba(56,189,248,0.5)]');
+      const icon = btnElem.querySelector('svg');
+      if (icon) {
+        icon.classList.add('text-cyan-300', 'scale-125');
+      }
+
+      // Update Note Box
+      const noteBox = document.getElementById('rose-note-box');
+      noteBox.innerHTML = `
+        <div class="flex items-center justify-center gap-2">
+          <span>🌹</span>
+          <span>${note}</span>
+        </div>
+      `;
+      noteBox.classList.add('border-sky-300', 'glass-card-glow');
+      setTimeout(() => noteBox.classList.remove('glass-card-glow'), 800);
+
+      // Update counter
+      document.getElementById('rose-counter').innerText = `${pickedRoses.size} of ${totalRoses} Roses Gathered 💙`;
+
+      // When all 6 are picked: Morph section in place into the bouquet
+      if (pickedRoses.size === totalRoses) {
+        setTimeout(() => {
+          const pickingContainer = document.getElementById('rose-picking-container');
+          const bouquetContainer = document.getElementById('bouquet-transformed-container');
+          const parentSection = document.getElementById('rose-section');
+
+          pickingContainer.classList.add('opacity-0');
+
+          setTimeout(() => {
+            pickingContainer.classList.add('hidden');
+            bouquetContainer.classList.remove('hidden');
+            
+            requestAnimationFrame(() => {
+              bouquetContainer.classList.remove('opacity-0');
+              bouquetContainer.classList.add('opacity-100');
+              parentSection.classList.add('glass-card-glow', 'border-cyan-400');
+            });
+
+            playCelebrationChord();
+            confetti({
+              particleCount: 70,
+              spread: 80,
+              colors: ['#38bdf8', '#2563eb', '#93c5fd']
+            });
+          }, 500);
+        }, 800);
+      }
+    }
+
+    // ==========================================
+    // 6. Playful Runaway "Still mad at you" Button
+    // ==========================================
+    const funnyPleas = [
+      "Pleeease baccha 🥺",
+      "I will get you real blue roses! 🌹💙",
+      "Look how sorry I am! 🥺",
+      "I'm your dummy, please forgive me 🥺",
+      "I promise to always admire you properly!",
+      "Pretty please with 100 blue roses on top? 🌹",
+      "I'll cook you snacks whenever you want! 🍟",
+      "You have the cutest smile, don't stay mad! 🥺"
+    ];
+    let pleaIndex = 0;
+
+    function dodgeButton() {
+      playTone(400, 'square', 0.1, 0.03);
+      const noBtn = document.getElementById('no-btn');
+      const zone = document.getElementById('forgiveness-zone');
+      const pleaText = document.getElementById('plea-text');
+
+      const maxX = (zone.offsetWidth / 2) - 80;
+      const maxY = 55;
+
+      const randomX = (Math.random() * (maxX * 2)) - maxX;
+      const randomY = (Math.random() * (maxY * 2)) - maxY;
+
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+      pleaText.innerText = `"${funnyPleas[pleaIndex % funnyPleas.length]}"`;
+      pleaText.classList.add('text-sky-200');
+      pleaIndex++;
+    }
+
+    // ==========================================
+    // 7. Confetti & Celebration Finale
+    // ==========================================
+    function celebrateForgiveness() {
+      playCelebrationChord();
+
+      const end = Date.now() + 2.5 * 1000;
+      const colors = ['#38bdf8', '#2563eb', '#60a5fa', '#e0f2fe', '#ffffff'];
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 65,
+          origin: { x: 0 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 65,
+          origin: { x: 1 },
+          colors: colors
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+
+      const modal = document.getElementById('celebration-modal');
+      const modalCard = document.getElementById('modal-card');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modalCard.classList.remove('scale-95');
+      modalCard.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('celebration-modal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+  </script>
+</body>
+</html>
